@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -13,14 +13,51 @@ import {
   FormControl,
   FormLabel,
   Input,
+  useToast,
 } from "@chakra-ui/react";
+import { getOrder, updateOrder } from "../Redux/Order/action";
+import { useDispatch, useSelector } from "react-redux";
 
-export const EditOrder = () => {
+export const EditOrder = ({ id }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [data, setData] = useState();
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const isLoading = useSelector((state) => state.OrderReducer.isLoading);
 
-  const handleChange = () => {};
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(data);
+    dispatch(updateOrder({ id: id, data: data })).then((res) => {
+      if (res.payload.status == "success") {
+        toast({
+          title: res.payload.message,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+          position: "top",
+        });
+        dispatch(getOrder());
+        onClose();
+      } else {
+        toast({
+          title: res.payload.message,
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+          position: "top",
+        });
+      }
+    });
+  };
 
   return (
     <>
@@ -54,7 +91,7 @@ export const EditOrder = () => {
               </FormControl>
 
               <Button type="submit" w={"full"} mt={3} colorScheme={"blue"}>
-                {/* {isLoading ? (
+                {isLoading ? (
                   <>
                     <Spinner
                       thickness="4px"
@@ -66,8 +103,7 @@ export const EditOrder = () => {
                   </>
                 ) : (
                   "Update Order"
-                )} */}
-                Update Order
+                )}
               </Button>
             </form>
           </ModalBody>

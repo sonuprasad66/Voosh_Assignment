@@ -3,14 +3,11 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   Button,
-  Heading,
   Image,
 } from "@chakra-ui/react";
 import React from "react";
@@ -18,7 +15,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getProfile } from "../Redux/Auth/action";
-import { getOrder } from "../Redux/Order/action";
+import { deleteOrder, getOrder } from "../Redux/Order/action";
 import { EditOrder } from "./EditOrder";
 
 export const GetOrder = () => {
@@ -26,7 +23,14 @@ export const GetOrder = () => {
 
   const order = useSelector((state) => state.OrderReducer.order);
 
-  console.log(order);
+  const handleDelete = (id) => {
+    dispatch(deleteOrder(id))
+      .then((res) => {
+        dispatch(getOrder());
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
     dispatch(getProfile());
@@ -65,10 +69,15 @@ export const GetOrder = () => {
                         <Td>{item.sub_total}</Td>
                         <Td>{item.phone_number}</Td>
                         <Td>
-                          <EditOrder />
+                          <EditOrder id={item._id} />
                         </Td>
                         <Td>
-                          <Button colorScheme={"red"}>Delete</Button>
+                          <Button
+                            colorScheme={"red"}
+                            onClick={() => handleDelete(item._id)}
+                          >
+                            Delete
+                          </Button>
                         </Td>
                       </Tr>
                     </>

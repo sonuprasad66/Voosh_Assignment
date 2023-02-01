@@ -34,3 +34,34 @@ export const getOrder = (payload) => (dispatch) => {
       return dispatch({ type: types.GET_ORDER_FAILURE, payload: err });
     });
 };
+
+export const updateOrder = (payload) => (dispatch) => {
+  dispatch({ type: types.UPDATE_ORDER_REQUEST });
+  return axios
+    .patch(`http://localhost:8080/update-order`, payload)
+    .then((res) => {
+      //   console.log(res.data);
+      return dispatch({
+        type: types.UPDATE_ORDER_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({ type: types.UPDATE_ORDER_FAILURE, payload: err });
+    });
+};
+
+export const deleteOrder = (id) => (dispatch) => {
+  return axios
+    .delete(`http://localhost:8080/delete-order/${id}`)
+    .then((res) => {
+      console.log("userDelete", res.data);
+      return dispatch({
+        type: types.DELETE_ORDER_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

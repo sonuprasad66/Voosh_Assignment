@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Heading, Image } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import * as types from "../Redux/Auth/actionTypes";
 
 export const Navbar = () => {
@@ -45,7 +45,9 @@ export const Navbar = () => {
                 src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
                 alt="Profile"
               />
-              <Heading size={"md"}>{currentUser.name}</Heading>
+              <Heading size={"md"} ml={1}>
+                {currentUser.name}
+              </Heading>
             </Flex>
 
             <Flex gap={1}>
@@ -87,15 +89,40 @@ export const Navbar = () => {
       ) : (
         <Box boxShadow="xl" p="6">
           <Flex justifyContent={"space-around"} alignItems={"center"}>
-            <Link to="/">
-              <Heading>Voosh</Heading>
-            </Link>
-            <Link to="/">
-              <Button>Login</Button>
-            </Link>
-            <Link to="/signup">
-              <Button>Signup</Button>
-            </Link>
+            <Heading
+              color={"blue.500"}
+              fontFamily={"Helvetica"}
+              fontWeight={800}
+              letterSpacing={0.5}
+              as={NavLink}
+              to="/"
+            >
+              Voosh
+            </Heading>
+
+            <Flex gap={1}>
+              <Button
+                data-testid="home"
+                as={NavLink}
+                to="/"
+                px={7}
+                borderRadius={"3xl"}
+                colorScheme={"blue"}
+              >
+                Login
+              </Button>
+
+              <Button
+                data-testid="home"
+                as={NavLink}
+                to="/signup"
+                px={7}
+                borderRadius={"3xl"}
+                colorScheme={"blue"}
+              >
+                Signup
+              </Button>
+            </Flex>
           </Flex>
         </Box>
       )}

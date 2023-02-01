@@ -46,6 +46,18 @@ export const reducer = (state = initialState, action) => {
         isError: true,
       };
 
+    case types.UPDATE_ORDER_REQUEST:
+      return { ...state, isLoading: true, isError: false };
+
+    case types.UPDATE_ORDER_SUCCESS:
+      return { ...state, isLoading: false, isError: false, order: payload };
+
+    case types.UPDATE_ORDER_FAILURE:
+      return { ...state, isLoading: false, isError: true, order: [] };
+
+    case types.DELETE_ORDER_SUCCESS:
+      return { ...state, isLoading: false, isError: false, order: payload };
+
     default:
       return state;
   }
