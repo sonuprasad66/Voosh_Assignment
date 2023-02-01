@@ -21,7 +21,30 @@ const getOrder = async (req, res) => {
   res.send(order);
 };
 
+const updateOrder = async (req, res) => {
+  const { id, data } = req.body;
+
+  const updatedData = await orderModel.findByIdAndUpdate(
+    { _id: id },
+    { _id: id, ...data },
+    { new: true }
+  );
+  res.send({ message: "Order updated successfully", status: "success" });
+};
+
+const deleteOrder = async (req, res) => {
+  const { id } = req.params;
+  const users = await orderModel.deleteOne({ _id: id });
+  res.send({
+    users: users,
+    message: "Order deleted successfully",
+    status: "success",
+  });
+};
+
 module.exports = {
   addOrder,
   getOrder,
+  updateOrder,
+  deleteOrder,
 };
