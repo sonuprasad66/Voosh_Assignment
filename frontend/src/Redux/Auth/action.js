@@ -4,7 +4,7 @@ import axios from "axios";
 export const userSignup = (payload) => (dispatch) => {
   dispatch({ type: types.USER_SIGNUP_REQUEST });
   return axios
-    .post(`http://localhost:8080/add-user`, payload)
+    .post(`https://voosh-4em8.onrender.com/add-user`, payload)
     .then((res) => {
       //   console.log(res.data);
       return dispatch({ type: types.USER_SIGNUP_SUCCESS, payload: res.data });
@@ -18,7 +18,7 @@ export const userSignup = (payload) => (dispatch) => {
 export const userLogin = (payload) => (dispatch) => {
   dispatch({ type: types.USER_LOGIN_REQUEST });
   return axios
-    .post(`http://localhost:8080/login-user`, payload)
+    .post(`https://voosh-4em8.onrender.com/login-user`, payload)
     .then((res) => {
       //   console.log(res.data.message);
       return dispatch({ type: types.USER_LOGIN_SUCCESS, payload: res.data });
@@ -32,7 +32,7 @@ export const userLogin = (payload) => (dispatch) => {
 export const getProfile = (payload) => (dispatch) => {
   const token = localStorage.getItem("token");
   return axios
-    .get(`http://localhost:8080/profile`, {
+    .get(`https://voosh-4em8.onrender.com/profile`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => {

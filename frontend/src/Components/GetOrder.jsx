@@ -9,6 +9,7 @@ import {
   TableContainer,
   Button,
   Image,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
 import { useEffect } from "react";
@@ -20,16 +21,30 @@ import { EditOrder } from "./EditOrder";
 
 export const GetOrder = () => {
   const dispatch = useDispatch();
-
+  const toast = useToast();
   const order = useSelector((state) => state.OrderReducer.order);
 
   const handleDelete = (id) => {
-    dispatch(deleteOrder(id))
-      .then((res) => {
+    dispatch(deleteOrder(id)).then((res) => {
+      if (res.payload.status == "success") {
+        toast({
+          title: res.payload.message,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+          position: "top",
+        });
         dispatch(getOrder());
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+      } else {
+        toast({
+          title: res.payload.message,
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+          position: "top",
+        });
+      }
+    });
   };
 
   useEffect(() => {

@@ -42,7 +42,7 @@ export const NewOrder = () => {
           isClosable: true,
           position: "top",
         });
-        navigate("/addorder");
+        navigate("/getorder");
       } else {
         toast({
           title: res.payload.message,
